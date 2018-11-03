@@ -1,0 +1,40 @@
+# write all relative paths for files matching [pattern1] to [filename].txt
+# delete all files matching [pattern1]
+# copy [file1] to directories of files which matched [pattern1]
+(find . -name "[pattern1]") > [filename].txt
+find . -name "[pattern1]" -delete
+while read line; do cp -v [file1] "$(dirname "$line")"; done < [filename].txt
+
+# delete line that matches [pattern for line] in files matching [pattern for files]
+(find . -name "[pattern for files]") > [filename].txt
+while read line; do grep -v '[pattern for line]' "$line" > temp && mv temp "$line"; done < packagesconfigpaths.txt
+
+# recursively delete all folders matching [dirname] verbosely
+find . -name [dirname] -type d -print0 | xargs -0 /bin/rm -rv
+
+# search for pattern in .cs files in git repo
+grep -rni --exclude-dir=.git --include=*.cs [pattern]
+
+# change folder and subdirectories to their state in [commit]
+git reset [commit] -- [path/to/folder]
+
+# view files that changed in repo from last commit
+git diff --name-only
+
+# view names of files in [directory1] and [directory2] whose contents differ (-r for all files under directory)
+diff -qr [directory1] [directory2]
+
+# view differences side by side between [file1] and [file2]
+diff -y --suppress-common-lines [file1] [file2]
+
+# copy all .[extension] files within current directory to [output dir], preserving the files' directory structure
+find . -name '*.[extension]' -print | cpio -pdmu [path to output dir]
+
+# search for files containing a line which exceeds 200 characters
+grep --exclude-dir=.git -r '.\{200\}'
+
+# show file in other branch in terminal. can be piped to vim.
+git show branch:file
+
+# view size of entire [directory] folder.
+du -sh [directory]
